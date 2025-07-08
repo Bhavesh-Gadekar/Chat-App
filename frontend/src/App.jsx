@@ -8,7 +8,10 @@ import Home from './pages/user/home';
 
 import io from 'socket.io-client'
 
-const socket=io.connect(`${import.meta.env.VITE_SERVER_URL}`)
+const socket = io(`${import.meta.env.VITE_SERVER_URL}`, {
+  withCredentials: true,
+});
+console.log("Socket connecting to:", import.meta.env.VITE_SERVER_URL);
 
 function App() {
 
