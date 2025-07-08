@@ -8,7 +8,7 @@ const OnlineUsers = {}; // Stores userId to socketId mapping
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: ['http://localhost:5173', 'https://talksphere.netlify.app'],
     methods: ['GET', 'POST']
   }
 });
