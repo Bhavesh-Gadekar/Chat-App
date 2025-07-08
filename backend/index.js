@@ -17,7 +17,7 @@ const PORT=process.env.PORT;
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:['http://localhost:5173',"https://talkspheree.netlify.app/"],
     credentials:true,
     methods:["GET","POST","DELETE","PUT"]
 }));
