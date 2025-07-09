@@ -10,6 +10,7 @@ import io from 'socket.io-client'
 
 const socket = io(`${import.meta.env.VITE_SERVER_URL}`, {
   withCredentials: true,
+  transports: ['polling', 'websocket'],
 });
 console.log("Socket connecting to:", import.meta.env.VITE_SERVER_URL);
 
