@@ -23,7 +23,8 @@ app.use(cors({
     'https://talksphere.netlify.app'
   ],
   credentials: true,
-  methods: ["GET", "POST", "DELETE", "PUT"]
+  methods: ["GET", "POST", "DELETE", "PUT"],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use('/api/auth', authRoutes);
