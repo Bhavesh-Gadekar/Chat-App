@@ -13,18 +13,32 @@ configDotenv();
 
 const PORT = process.env.PORT || 5000;
 
+// Get allowed origins from environment variables or use defaults
+const getAllowedOrigins = () => {
+  const origins = process.env.CORS_ORIGINS 
+    ? process.env.CORS_ORIGINS.split(',') 
+    : ['http://localhost:5173', 'https://talksphere.netlify.app'];
+  
+  // In production, also allow the production frontend URL if not already included
+  if (process.env.NODE_ENV === 'production' && process.env.FRONTEND_URL) {
+    if (!origins.includes(process.env.FRONTEND_URL)) {
+      origins.push(process.env.FRONTEND_URL);
+    }
+  }
+  
+  return origins;
+};
+
 app.use(cookieParser());
 app.use(express.json());
 
 // CORS must be set in both Express and Socket.IO
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://talksphere.netlify.app'
-  ],
+  origin: getAllowedOrigins(),
   credentials: true,
-  methods: ["GET", "POST", "DELETE", "PUT"],
+  methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200 // For legacy browser support
 }));
 
 app.use('/api/auth', authRoutes);
