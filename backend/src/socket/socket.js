@@ -7,12 +7,33 @@ const server = http.createServer(app);
 
 const OnlineUsers = {}; // userId -> socketId
 
+// Get allowed origins from environment variables or use defaults
+const getAllowedOrigins = () => {
+  const origins = process.env.CORS_ORIGINS 
+    ? process.env.CORS_ORIGINS.split(',') 
+    : ['http://localhost:5173', 'https://talksphere.netlify.app'];
+  
+  // In production, also allow the production frontend URL if not already included
+  if (process.env.NODE_ENV === 'production' && process.env.FRONTEND_URL) {
+    if (!origins.includes(process.env.FRONTEND_URL)) {
+      origins.push(process.env.FRONTEND_URL);
+    }
+  }
+  
+  return origins;
+};
+
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:5173', 'https://talksphere.netlify.app'],
-    methods: ['GET', 'POST'],
-    credentials: true
-  }
+    origin: getAllowedOrigins(),
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200 // For legacy browser support
+  },
+  // Additional Socket.IO options for production
+  transports: ['websocket', 'polling'],
+  allowEIO3: true // Enable Engine.IO v3 compatibility if needed
 });
 
 // Get receiver socket ID helper
