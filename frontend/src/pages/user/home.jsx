@@ -90,7 +90,7 @@ const Home = ({socket}) => {
                         <div className="w-[75%] text-center font-bold text-xl">{`${user?.user?.firstname ?? ''} ${user?.user?.lastname ?? ''}`}</div>
                         <img src="../../../images/gear.png" className="w-7 h-7" onClick={() => { setSetting(true) }} />
                     </div>
-                    <div className="mt-2 p-2 w-full h-full bg-white/60 ring-1 rounded-xl ring-white/70 overflow-y-auto scrollbar-hide no-scrollbar">
+                    <div className="mt-2 p-2 w-full h-full bg-white/60 ring-1 rounded-xl ring-white/70 overflow-y-auto scrollbar-hide">
                         <People setChats={setChats} socket={socket} setRecieverId={setRecieverId} setclicked={setclicked} users={users} setUsers={setUsers} setclickedUser={setclickedUser} clickedUser={clickedUser} />
                     </div>
                 </div>
